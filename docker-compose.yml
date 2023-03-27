@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  frontend:
+    build:
+
+  backend:
+    build:
+      
+  postgres:
+    image: postgres:15.2-alpine
+  
+  pgadmin:
+    build:
+
+networks:
+  trans_net:
+
