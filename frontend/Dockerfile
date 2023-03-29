@@ -2,12 +2,12 @@ FROM node:19-alpine3.16
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY ./package*.json ./
+
+ENV PATH /app/node_modules/.bin:$PATH
 
 RUN npm install
 
-COPY . .
-
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD npm start --host 0.0.0.0 --disableHostCheck true
