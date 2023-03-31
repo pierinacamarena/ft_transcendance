@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Hello World, shupi rocks
+          Hello World, Tunki time!
         </a>
       </header>
     </div>

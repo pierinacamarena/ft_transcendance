@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY ./package*.json ./
 
-ENV PATH /app/node_modules/.bin:$PATH
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=$PATH:/home/node/.npm-global/bin 
 
 RUN npm install
 
