@@ -1,0 +1,15 @@
+To Install the front end:
+    -npx create-react-app frontend
+    -cd frontend and created a Dockerfile
+    -Followed this tutorial with some modifications to dockerise the frontend
+    https://medium.com/@chavezharris/live-reload-with-docker-and-react-3d6de03920af
+
+To install the back end:
+    $ npm i -g @nestjs/cli
+        -the -g flag is not allowed in 42, so I used instead
+            -npm i @nestjs/cli
+    $ nest new project-name
+        -does not work because nestjs/cli is not installed globally
+            -I used npx @nestjs/cli new backend
+                -this created the backend as a git repo so ran
+                    -rm -rf .git inside the backend folder
