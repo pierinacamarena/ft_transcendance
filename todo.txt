@@ -1,0 +1,19 @@
+route is a path, you can access this path through a url
+every route has a function
+every route is divided by methods
+    Methods are a follow;
+        -GET->retrieve something 
+        -POST ->create or add something 
+        -PATCH ->mdifiy something 
+        -DELETE ->I DON;T KNOW 
+        -PUT -> replace something
+
+fiiirst-> database
+    -determine what to put into the databe
+List the steps of the website --> determine routes
+
+    e.g login
+    e.g suscribe
+
+-Do your gateways first
+    -
