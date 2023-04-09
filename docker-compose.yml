@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   frontend:
-    container_name: front_end_reactjs
+    container_name: frontend
     restart: unless-stopped
     build:
       context: ./Dockdir
@@ -17,7 +17,7 @@ services:
       - my_net
 
   backend:
-    container_name: back_end_nest
+    container_name: backend
     restart: unless-stopped
     build:
       context: ./backend
@@ -33,7 +33,15 @@ services:
       - CHOKIDAR_USEPOLLING=true 
     networks:
       - my_net
-      
+
+  # postgres:
+  #   image: postgres:latest
+  #   container_name: postgres
+  #   ports: 
+  #       - 5534:5532
+  #   restart: always
+  #   volumes:
+  #       - "./volume_test:/var/lib/postgresql/data"  
   postgres_db:
     container_name: db
     image: postgres:14.1-alpine
@@ -43,13 +51,27 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=${PGDATA}
       - POSTGRES_DB=${POSTGRES_DB}
-    ports:
-      - '5432:5432'
+      - POSTGRES_HOST=${POSTGRES_HOST}
     volumes: 
       # - ./postgres_initdb/schema.sql:/docker-entrypoint-initdb.d/schema.sql:Z
-      - ./data_temp/:/var/lib/postgresql/data
+      - ./postgres_data/:/var/lib/postgresql/data
+
+    ports:
+      - '5432:5432'
     env_file:
       - .env
+    networks:
+      - my_net
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - 8081:80
     networks:
       - my_net
 
