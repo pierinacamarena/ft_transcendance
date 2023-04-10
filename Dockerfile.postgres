@@ -1,0 +1,12 @@
+FROM postgres:15.2-alpine
+
+# Set the UID for the root user
+ARG ROOT_UID=32251
+ARG ROOT_GID=4260
+RUN apk add --no-cache shadow && \
+    usermod -u ${ROOT_UID} postgres && \
+    groupmod -g ${ROOT_GID} postgres && \
+    chown -R postgres:postgres /var/lib/postgresql/data
+
+# Expose port 5432
+EXPOSE 5432
