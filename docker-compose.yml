@@ -34,17 +34,33 @@ services:
     networks:
       - my_net
 
-  # postgres:
-  #   image: postgres:latest
-  #   container_name: postgres
-  #   ports: 
-  #       - 5534:5532
-  #   restart: always
-  #   volumes:
-  #       - "./volume_test:/var/lib/postgresql/data"  
+  backend_nest:
+    container_name: backend
+    restart: unless-stopped
+    build:
+      context: ./backend_nest
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend_nest:/app:delegated
+      - /app/node_modules
+      - ./backend_nest/nodemon.json:/app/nodemon.json
+    ports:
+      - 3000:3000
+    command: npm start
+    environment:
+      - CHOKIDAR_USEPOLLING=true 
+    networks:
+      - my_net
+
   postgres_db:
     container_name: db
-    image: postgres:14.1-alpine
+    build:
+      context: .
+      args:
+        - ROOT_UID=${HOST_UID-1000}
+        - ROOT_GID=${ROOT_GID-1000}
+      dockerfile: Dockerfile.postgres
+    # image: postgres:15.2-alpine
     restart: unless-stopped
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -52,10 +68,8 @@ services:
       - PGDATA=${PGDATA}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_HOST=${POSTGRES_HOST}
-    volumes: 
-      # - ./postgres_initdb/schema.sql:/docker-entrypoint-initdb.d/schema.sql:Z
-      - ./postgres_data/:/var/lib/postgresql/data
-
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     env_file:
@@ -78,3 +92,12 @@ services:
 networks:
   my_net:
 
+volumes:
+  pgdata:
+# volumes:
+#   pgdata:
+#     driver: local
+#     driver_opts:
+#       type: 'none' 
+#       o: 'bind'
+#       device: '/sgoinfre/goinfre/Perso/pcamaren/ft_transcendance/pgdata'
