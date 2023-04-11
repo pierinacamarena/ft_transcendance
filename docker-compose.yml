@@ -16,16 +16,16 @@ services:
     networks:
       - my_net
       
-  backend_nest:
+  backend:
     container_name: backend
     restart: unless-stopped
     build:
-      context: ./backend_nest
+      context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend_nest:/app:delegated
+      - ./backend:/app:delegated
       - /app/node_modules
-      - ./backend_nest/nodemon.json:/app/nodemon.json
+      - ./backend/nodemon.json:/app/nodemon.json
     ports:
       - 3000:3000
     command: npm start
@@ -33,6 +33,24 @@ services:
       - CHOKIDAR_USEPOLLING=true 
     networks:
       - my_net
+      
+  # backend_nest:
+  #   container_name: backend
+  #   restart: unless-stopped
+  #   build:
+  #     context: ./backend_nest
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./backend_nest:/app:delegated
+  #     - /app/node_modules
+  #     - ./backend_nest/nodemon.json:/app/nodemon.json
+  #   ports:
+  #     - 3000:3000
+  #   command: npm start
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true 
+  #   networks:
+  #     - my_net
 
   postgres_db:
     container_name: db
